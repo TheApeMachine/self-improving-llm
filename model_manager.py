@@ -1,5 +1,9 @@
+# model_manager.py
+from database import Database
+
+
 class ModelManager:
-    def __init__(self, db):
+    def __init__(self, db: Database):
         self.db = db
 
     def add_model(self, name, model_type):
@@ -42,4 +46,4 @@ class ModelManager:
                 (task,),
             )
             result = cursor.fetchone()
-            return result[0] if result else None
+            return result["name"] if result else None

@@ -1,5 +1,9 @@
+# component_switcher.py
+from database import Database
+
+
 class ComponentSwitcher:
-    def __init__(self, db):
+    def __init__(self, db: Database):
         self.db = db
 
     def switch_model(self, component, model_name):
@@ -27,4 +31,4 @@ class ComponentSwitcher:
                 (component,),
             )
             result = cursor.fetchone()
-            return result[0] if result else None
+            return result["name"] if result else None

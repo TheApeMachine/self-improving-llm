@@ -1,3 +1,16 @@
+# adaptive_llm_system.py
+from dynamic_expert_creator import DynamicExpertCreator
+from response_analyzer import ResponseAnalyzer
+
+from bart_prompt_optimizer import BartPromptOptimizer
+from component_switcher import ComponentSwitcher
+from database import Database
+from expert_router import ExpertRouter
+from model_manager import ModelManager
+from reasoning_model import ReasoningModel
+from task_label_tracker import TaskLabelTracker
+
+
 class AdaptiveLLMSystem:
     def __init__(self):
         self.db = Database()
@@ -6,21 +19,23 @@ class AdaptiveLLMSystem:
         self.component_switcher = ComponentSwitcher(self.db)
 
         # Initialize other components
-        self.expert_router = self.load_component("expert_router")
-        self.prompt_optimizer = self.load_component("prompt_optimizer")
-        self.reasoning_model = self.load_component("reasoning_model")
+        self.expert_router = self.load_component("expert_router", ExpertRouter)
+        self.prompt_optimizer = self.load_component(
+            "prompt_optimizer", BartPromptOptimizer
+        )
+        self.reasoning_model = self.load_component("reasoning_model", ReasoningModel)
 
         self.dynamic_expert_creator = DynamicExpertCreator(self.model_manager)
         self.response_analyzer = ResponseAnalyzer()
 
-    def load_component(self, component_name):
+    def load_component(self, component_name, component_class):
         model_name = self.component_switcher.get_current_model(component_name)
         if not model_name:
             model_name = self.model_manager.get_best_model_for_task(component_name)
             if not model_name:
                 model_name = "default_model"  # Fallback to default
             self.component_switcher.switch_model(component_name, model_name)
-        return load_model(model_name)  # Implement load_model function
+        return component_class(model_name)
 
     def process_input(self, user_input):
         self.task_label_tracker.process_input(user_input)
