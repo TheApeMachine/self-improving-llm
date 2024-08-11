@@ -1,0 +1,7 @@
+transformers
+selenium
+deeplake
+loguru
+rich
+bs4
+sqllite3
