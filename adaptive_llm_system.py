@@ -5,21 +5,29 @@ from selenium import webdriver
 from transformers import pipeline
 from loguru import logger
 from memory_system import MemorySystem
+from bart_prompt_optimizer import BartPromptOptimizer
+from response_analyzer import ResponseAnalyzer
 
 class AdaptiveLLMSystem:
     def __init__(self):
         self.task_classifier = pipeline("zero-shot-classification")
-        self.topic_extractor = pipeline("zero-shot-classification")
+        self.topic_extractor = pipeline("text2text-generation", model="facebook/bart-large-cnn")
         self.browser = webdriver.Firefox()  # or Chrome
         self.session = aiohttp.ClientSession()
         self.memory = MemorySystem()
+        self.prompt_optimizer = BartPromptOptimizer()
+        self.response_analyzer = ResponseAnalyzer()
         logger.debug("AdaptiveLLMSystem initialized successfully.")
 
     async def process_input(self, user_input):
+        # Optimize the input prompt
+        optimized_input = self.prompt_optimizer.optimize(user_input)
+        logger.debug(f"Optimized input: {optimized_input}")
+
         tasks = [
-            self.classify_task(user_input),
-            self.extract_topics(user_input),
-            self.generate_response(user_input),
+            self.classify_task(optimized_input),
+            self.extract_topics(optimized_input),
+            self.generate_response(optimized_input),
         ]
         task_labels, topics, response = await asyncio.gather(*tasks)
 
@@ -52,20 +60,14 @@ class AdaptiveLLMSystem:
         ]
 
     async def extract_topics(self, text):
-        general_topics = [
-            "science",
-            "technology",
-            "politics",
-            "economics",
-            "culture",
-            "sports",
-        ]
-        result = self.topic_extractor(text, general_topics, multi_label=True)
-        return [
-            topic
-            for topic, score in zip(result["labels"], result["scores"])
-            if score > 0.3
-        ]
+        prompt = f"Extract the main topics from the following text, separated by commas:\n\n{text}\n\nTopics:"
+        result = self.topic_extractor(prompt, max_length=100, num_return_sequences=1)
+        
+        # Split the generated topics and remove any leading/trailing whitespace
+        topics = [topic.strip() for topic in result[0]['generated_text'].split(',')]
+        
+        logger.debug(f"Extracted topics: {topics}")
+        return topics
 
     async def generate_response(self, text):
         # Check memory for past relevant interactions
@@ -85,6 +87,7 @@ class AdaptiveLLMSystem:
 
     async def research_topic(self, topic):
         url = f"https://en.wikipedia.org/wiki/{topic}"
+        logger.debug(f"Researching: {topic}")
         async with self.session.get(url) as response:
             if response.status == 200:
                 html = await response.text()
@@ -100,6 +103,11 @@ class AdaptiveLLMSystem:
         # This would involve querying model repositories, evaluating models, and updating the system
         # For now, we'll use a placeholder
         logger.debug(f"Searching for better model for task: {task}")
+
+    def analyze_user_feedback(self, llm_response, user_response):
+        score = self.response_analyzer.analyze_response(llm_response, user_response)
+        logger.debug(f"Response analysis score: {score}")
+        return score
 
     def shutdown(self):
         self.browser.quit()
