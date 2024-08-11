@@ -1,61 +1,29 @@
-# expert_router.py
-
-from bs4 import BeautifulSoup
 from loguru import logger
+from rich.logging import RichHandler
 
-from headless_browser import HeadlessBrowser
-from reasoning_model import BaseModel
-
+# Set up pretty logging
+logger.remove()
+logger.add(RichHandler(), format="{message}", level="DEBUG")
 
 class ExpertRouter:
-    def __init__(self):
+    def __init__(self, model_name=None):
+        self.model_name = model_name
         self.experts = {}
-        self.browser = HeadlessBrowser()
-        logger.debug("[Expert Router] Initialized expert router.")
+        logger.debug(f"[Expert Router] Initialized with model: {model_name}")
 
-    def register_expert(self, model_name: str, expert: BaseModel):
-        self.experts[model_name] = expert
-        logger.debug(f"[Expert Router] Registered expert model: {model_name}.")
+    def register_expert(self, expert_name, expert):
+        self.experts[expert_name] = expert
+        logger.debug(f"[Expert Router] Registered expert: {expert_name}")
 
-    def route(self, intent: str, optimized_prompt: str):
-        logger.debug(f"[Expert Router] Routing based on intent: {intent}")
-        selected_experts = []
-
-        # Check if the prompt requires real-time data from the web
-        if (
-            "latest news" in optimized_prompt.lower()
-            or "current events" in optimized_prompt.lower()
-        ):
-            url = "https://news.ycombinator.com/"  # You can change this URL to another news site
-            page_content = self.browser.fetch_data(url)
-
-            # Use BeautifulSoup to parse and truncate the content
-            soup = BeautifulSoup(page_content, "html.parser")
-            text_content = soup.get_text(separator=" ", strip=True)
-            truncated_content = text_content[
-                :2000
-            ]  # Truncate to 2000 characters (adjust as needed)
-
-            optimized_prompt += " " + truncated_content
-            logger.debug(
-                f"[Expert Router] Appended real-time data to prompt: {optimized_prompt}"
-            )
-
-        # Select experts based on the intent or optimized prompt analysis
-        if "analysis" in optimized_prompt.lower():
-            selected_experts.append("reasoning_model")
-        elif (
-            "strategy" in optimized_prompt.lower() or "plan" in optimized_prompt.lower()
-        ):
-            selected_experts.append("strategy_generation_model")
+    def route(self, optimized_prompt):
+        # For now, we'll just return a dummy expert
+        # In the future, this method should analyze the prompt and route to the appropriate expert
+        logger.debug(f"[Expert Router] Routing prompt: {optimized_prompt}")
+        
+        if self.experts:
+            expert_name = next(iter(self.experts))
+            logger.debug(f"[Expert Router] Routed to expert: {expert_name}")
+            return self.experts[expert_name]
         else:
-            selected_experts.append("general")
-
-        # Collect responses from selected experts
-        responses = []
-        for expert_name in selected_experts:
-            expert = self.experts.get(expert_name)
-            if expert:
-                responses.append(expert.generate(optimized_prompt, max_new_tokens=150))
-
-        return responses
+            logger.debug("[Expert Router] No experts available, returning None")
+            return None
