@@ -1,84 +1,160 @@
-# Adaptive LLM System
+# 🌟 **Intelligent Autonomous System (IAS)**
 
-## Overview
+The **Intelligent Autonomous System (IAS)** is an advanced platform designed to autonomously enhance and expand the capabilities of artificial intelligence models and systems. By leveraging cutting-edge strategies such as dynamic mixture of experts, knowledge graphs, shared memory, and continuous self-improvement, the IAS aims to perform complex tasks with minimal human intervention, optimizing for both performance and adaptability.
 
-The Adaptive LLM System is an advanced, flexible, and self-improving language model interface designed to handle a wide range of natural language processing tasks. It combines various state-of-the-art components to create a system that can adapt to user needs, learn from interactions, and optimize its performance over time.
+## **Table of Contents**
 
-## Features
+- [**Features**](#features)
+  - [⚙️ Dynamic Mixture of Experts](#️-dynamic-mixture-of-experts)
+  - [🔗 Knowledge Graph Integration](#-knowledge-graph-integration)
+  - [🧠 Shared Memory Management](#-shared-memory-management)
+  - [💡 Prompt Optimization](#-prompt-optimization)
+  - [🔄 Self-Reflection and Continuous Improvement](#-self-reflection-and-continuous-improvement)
+  - [📡 Kafka-Driven Architecture](#-kafka-driven-architecture)
+- [**Project Structure**](#project-structure)
+- [**Setup and Installation**](#setup-and-installation)
+- [**Usage**](#usage)
+  - [🚀 Running the System](#-running-the-system)
+  - [🔍 Monitoring Services](#-monitoring-services)
+- [**Contributing**](#contributing)
+- [**License**](#license)
+- [**Contact**](#contact)
 
-1. **Dynamic Task Classification**: Automatically identifies the type of task required based on user input.
+## **Features**
 
-2. **Flexible Topic Extraction**: Utilizes advanced language models to extract topics from user input without relying on predefined categories.
+### ⚙️ **Dynamic Mixture of Experts**
 
-3. **Prompt Optimization**: Refines and clarifies user inputs to improve overall system performance.
+- **Modular Architecture:** The system dynamically creates and manages a mixture of experts (specialized models) based on task requirements.
+- **Expert Routing:** Tasks are routed to the most suitable expert or combination of experts, optimizing performance and efficiency.
 
-4. **Adaptive Response Generation**: Generates responses based on the specific task and context, leveraging past interactions when relevant.
+### 🔗 **Knowledge Graph Integration**
 
-5. **Memory System**: Stores and retrieves past interactions to inform future responses and build a knowledge base.
+- **Entity Relationship Management:** The system integrates a knowledge graph to manage relationships between entities, enabling more contextual and intelligent decision-making.
+- **Scalable and Flexible:** The knowledge graph is continuously updated and refined, providing a rich source of contextual data for various tasks.
 
-6. **Background Knowledge Acquisition**: Autonomously researches topics to expand its knowledge base.
+### 🧠 **Shared Memory Management**
 
-7. **Model Evaluation and Improvement**: Continuously evaluates its performance and searches for better models for specific tasks.
+- **Short-Term, Long-Term, and Shared Memory:** The system employs advanced memory management techniques, allowing it to store and recall information across sessions.
+- **Collaboration Between Experts:** Multiple experts can access shared memory, enabling them to collaborate dynamically and enhance decision-making.
 
-8. **User Feedback Analysis**: Analyzes user feedback to improve response quality over time.
+### 💡 **Prompt Optimization**
 
-9. **Asynchronous Processing**: Utilizes asynchronous programming for efficient handling of multiple tasks.
+- **Natural Language Understanding (NLU):** The system is equipped with sophisticated NLU capabilities to accurately interpret user prompts.
+- **Dynamic Prompt Refinement:** User prompts are automatically refined and optimized, ensuring the system receives the most precise instructions possible.
 
-## Goals
+### 🔄 **Self-Reflection and Continuous Improvement**
 
-1. **Adaptability**: Create a system that can handle a wide variety of language tasks without the need for task-specific fine-tuning.
+- **Performance Monitoring:** The system continuously monitors its own performance, analyzing successes and failures.
+- **Autonomous Learning:** Leveraging active learning and reinforcement learning techniques, the system adapts and improves autonomously over time.
 
-2. **Continuous Learning**: Improve performance over time through user interactions and autonomous learning.
+### 📡 **Kafka-Driven Architecture**
 
-3. **Flexibility**: Avoid hard-coded constraints and allow the system to adapt to new domains and types of queries.
+- **Decoupled Services:** The system uses Apache Kafka to decouple components, allowing for scalable, modular, and independent services.
+- **Real-Time Data Processing:** Kafka enables real-time data streaming, ensuring that the system responds promptly to new data and tasks.
 
-4. **Efficiency**: Optimize system performance to handle requests quickly and efficiently.
+---
 
-5. **Transparency**: Provide clear logging and feedback mechanisms to understand system decisions and performance.
+## **Project Structure**
 
-6. **Scalability**: Design the system to be easily expandable with new features and capabilities.
+```bash
+├── Dockerfile
+├── README.md
+├── config/
+│ └── kafka_config.py
+├── docker-compose.yml
+├── dynamic_mixture_of_experts/
+│ ├── expert.py
+│ ├── expert_manager.py
+│ └── task_router.py
+├── kafka_consumers/
+│ ├── knowledge_graph_consumer.py
+│ └── memory_consumer.py
+├── knowledge_graph/
+│ ├── knowledge_graph.py
+│ └── memory_manager.py
+├── main.py
+├── nlu/
+│ ├── entity_recognition.py
+│ ├── intent_recognition.py
+│ └── nlu_pipeline.py
+├── pipeline/
+│ └── data_cleaning.py
+├── prompt_optimization/
+│ ├── prompt_augmentation.py
+│ ├── prompt_optimizer.py
+│ └── prompt_rephrasing.py
+├── scraping/
+│ ├── scrapy.cfg
+│ └── wikipedia/
+│ ├── init.py
+│ ├── items.py
+│ ├── pipelines.py
+│ ├── settings.py
+│ └── spiders/
+│ └── wikipedia_spider.py
+├── self_reflection.py
+└── storage/
+├── mongodb_integration.py
+└── s3_integration.py
+```
+---
 
-7. **User-Centric**: Focus on providing helpful and relevant responses to users, with the ability to learn from user feedback.
+## **Setup and Installation**
 
-## Setup and Installation
+### **Prerequisites**
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/your-repo/adaptive-llm-system.git
-   cd adaptive-llm-system
-   ```
+- **Docker**: Ensure Docker is installed and running on your system.
+- **Docker Compose**: Docker Compose is required to orchestrate the various services.
+- **Python 3.10**: The project uses Python 3.10, so ensure it's installed and available in your environment.
 
-2. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
+### **Installation**
 
-3. Set up environment variables:
-   - Create a `.env` file in the root directory
-   - Add necessary API keys and configurations (e.g., `HF_API_TOKEN=your_huggingface_token`)
+**Clone the Repository:**
 
-4. Run the system:
-   ```
-   python main.py
-   ```
+```bash
+git clone https://github.com/your-repo/lmm-upgrade.git
+cd lmm-upgrade
+```
 
-## Usage
+**Setup Dockerfiles and Docker Compose:**
 
-After starting the system, you can interact with it through the command line interface. Type your queries or commands, and the system will respond accordingly. You can provide feedback after each interaction to help the system improve.
+Run the setup scripts to create Dockerfiles and configure Docker Compose:
 
-## Components
+```bash
+./setup_webcrawler_dockerfile.sh
+./setup_knowledge_graph_consumer_dockerfile.sh
+./setup_memory_consumer_dockerfile.sh
+./setup_docker_compose.sh
+```
 
-- `adaptive_llm_system.py`: Main system class that integrates all components
-- `bart_prompt_optimizer.py`: Optimizes user inputs
-- `memory_system.py`: Handles storage and retrieval of past interactions
-- `response_analyzer.py`: Analyzes user feedback
-- `main.py`: Entry point for running the system
+**Build and Start the Services:**
 
-## Contributing
+```bash
+docker-compose up --build
+```
 
-We welcome contributions to improve the Adaptive LLM System. Please feel free to submit issues, feature requests, or pull requests.
+---
 
-## License
+### 🚀 Running the System
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The Intelligent Autonomous System (IAS) is designed to be run using Docker Compose. Once the services are up and running, the system will:
 
+- Scrape Data using the web crawler.
+- Process Data by routing tasks to the appropriate experts.
+- Integrate Data into the knowledge graph and memory using Kafka consumers.
+
+### 🔍 Monitoring Services
+
+You can monitor the logs of each service to ensure they are running as expected:
+
+```bash
+docker-compose logs <service_name>
+```
+
+For example:
+
+```bash
+docker-compose logs webcrawler
+docker-compose logs knowledge_graph_consumer
+docker-compose logs memory_consumer
+```
