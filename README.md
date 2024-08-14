@@ -16,9 +16,6 @@ The **Intelligent Autonomous System (IAS)** is an advanced platform designed to 
 - [**Usage**](#usage)
   - [🚀 Running the System](#-running-the-system)
   - [🔍 Monitoring Services](#-monitoring-services)
-- [**Contributing**](#contributing)
-- [**License**](#license)
-- [**Contact**](#contact)
 
 ## **Features**
 
@@ -92,16 +89,10 @@ The **Intelligent Autonomous System (IAS)** is an advanced platform designed to 
 │   ├── scrapy.cfg
 │   └── wikipedia
 │       ├── __init__.py
-│       ├── __pycache__
-│       │   ├── __init__.cpython-311.pyc
-│       │   ├── pipelines.cpython-311.pyc
-│       │   └── settings.cpython-311.pyc
 │       ├── items.py
 │       ├── pipelines.py
 │       ├── settings.py
 │       └── spiders
-│           ├── __pycache__
-│           │   └── wikipedia_spider.cpython-311.pyc
 │           └── wikipedia_spider.py
 ├── self_reflection.py
 └── storage

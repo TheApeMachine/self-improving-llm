@@ -8,3 +8,4 @@ transformers
 kafka-python
 boto3
 torch
+sentencepiece
