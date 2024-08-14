@@ -5,6 +5,7 @@ services:
     build:
       context: ./scraping
     container_name: web_crawler
+    entrypoint: /bin/sh -c "sleep 10 && scrapy crawl wikipedia --nolog"
     depends_on:
       - kafka
     networks:
@@ -12,9 +13,10 @@ services:
 
   knowledge_graph_consumer:
     build:
+      context: ./knowledge
       dockerfile: kg.Dockerfile
-      context: ./kafka_consumers
     container_name: knowledge_graph_consumer
+    entrypoint: /bin/sh -c "sleep 10 && python knowledge_graph_consumer.py"
     depends_on:
       - kafka
     networks:
@@ -22,13 +24,26 @@ services:
 
   memory_consumer:
     build:
+      context: ./knowledge
       dockerfile: mem.Dockerfile
-      context: ./kafka_consumers
     container_name: memory_consumer
+    entrypoint: /bin/sh -c "sleep 10 && python memory_consumer.py"
     depends_on:
       - kafka
     networks:
       - lmm-network
+
+  # ai_pipeline:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: ai_pipeline
+  #   networks:
+  #     - lmm-network
+  #   depends_on:
+  #     - webcrawler
+  #     - knowledge_graph_consumer
+  #     - memory_consumer
 
   spark:
     image: bitnami/spark:3.4.1

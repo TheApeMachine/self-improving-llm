@@ -1,8 +1,8 @@
 from kafka import KafkaConsumer
 import json
-from knowledge_graph.memory_manager import MemoryManager
+from knowledge_graph import KnowledgeGraph
 
-class MemoryConsumer:
+class KnowledgeGraphConsumer:
     def __init__(self):
         self.consumer = KafkaConsumer(
             'scraped_data',
@@ -12,10 +12,10 @@ class MemoryConsumer:
             enable_auto_commit=True,
             consumer_timeout_ms=1000  # Timeout after 1 second if no messages
         )
-        self.memory_manager = MemoryManager()
+        self.knowledge_graph = KnowledgeGraph()
 
     def consume(self):
-        print("Starting MemoryConsumer...")
+        print("Starting KnowledgeGraphConsumer...")
         try:
             while True:
                 message_batch = self.consumer.poll(timeout_ms=1000)  # Poll for new messages
@@ -24,14 +24,15 @@ class MemoryConsumer:
                         for message in messages:
                             data = message.value
                             title = data['title']
-                            # Example processing: Store in short-term memory
-                            self.memory_manager.store_short_term(data)
-                            print(f"Stored in Short-term Memory: {title}")
-                else:
-                    print("No new messages. Waiting...")
+                            content = data['content']
+
+                            if title is not None and content is not None:
+                                # Example processing: Add to knowledge graph
+                                self.knowledge_graph.add_relationship(title, "mentions", content)
+                                print(f"Processed and added to Knowledge Graph: {title}")
         except KeyboardInterrupt:
-            print("Stopping MemoryConsumer...")
+            print("Stopping KnowledgeGraphConsumer...")
 
 if __name__ == "__main__":
-    consumer = MemoryConsumer()
+    consumer = KnowledgeGraphConsumer()
     consumer.consume()

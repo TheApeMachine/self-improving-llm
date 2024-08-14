@@ -59,44 +59,56 @@ The **Intelligent Autonomous System (IAS)** is an advanced platform designed to 
 ```bash
 ├── Dockerfile
 ├── README.md
-├── config/
-│ └── kafka_config.py
+├── config
+│   └── kafka_config.py
 ├── docker-compose.yml
-├── dynamic_mixture_of_experts/
-│ ├── expert.py
-│ ├── expert_manager.py
-│ └── task_router.py
-├── kafka_consumers/
-│ ├── knowledge_graph_consumer.py
-│ └── memory_consumer.py
-├── knowledge_graph/
-│ ├── knowledge_graph.py
-│ └── memory_manager.py
+├── dynamic_mixture_of_experts
+│   ├── expert.py
+│   ├── expert_manager.py
+│   └── task_router.py
+├── knowledge
+│   ├── kg.Dockerfile
+│   ├── knowledge_graph.py
+│   ├── knowledge_graph_consumer.py
+│   ├── mem.Dockerfile
+│   ├── memory_consumer.py
+│   ├── memory_manager.py
+│   └── requirements.txt
 ├── main.py
-├── nlu/
-│ ├── entity_recognition.py
-│ ├── intent_recognition.py
-│ └── nlu_pipeline.py
-├── pipeline/
-│ └── data_cleaning.py
-├── prompt_optimization/
-│ ├── prompt_augmentation.py
-│ ├── prompt_optimizer.py
-│ └── prompt_rephrasing.py
-├── scraping/
-│ ├── scrapy.cfg
-│ └── wikipedia/
-│ ├── init.py
-│ ├── items.py
-│ ├── pipelines.py
-│ ├── settings.py
-│ └── spiders/
-│ └── wikipedia_spider.py
+├── nlu
+│   ├── entity_recognition.py
+│   ├── intent_recognition.py
+│   └── nlu_pipeline.py
+├── pipeline
+│   └── data_cleaning.py
+├── prompt_optimization
+│   ├── prompt_augmentation.py
+│   ├── prompt_optimizer.py
+│   └── prompt_rephrasing.py
+├── requirements.txt
+├── scraping
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── scrapy.cfg
+│   └── wikipedia
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-311.pyc
+│       │   ├── pipelines.cpython-311.pyc
+│       │   └── settings.cpython-311.pyc
+│       ├── items.py
+│       ├── pipelines.py
+│       ├── settings.py
+│       └── spiders
+│           ├── __pycache__
+│           │   └── wikipedia_spider.cpython-311.pyc
+│           └── wikipedia_spider.py
 ├── self_reflection.py
-└── storage/
-├── mongodb_integration.py
-└── s3_integration.py
+└── storage
+    ├── mongodb_integration.py
+    └── s3_integration.py
 ```
+
 ---
 
 ## **Setup and Installation**

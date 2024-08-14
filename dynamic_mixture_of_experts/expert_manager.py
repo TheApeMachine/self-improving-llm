@@ -1,4 +1,4 @@
-from expert import Expert, ExampleExpert
+from .expert import Expert, ExampleExpert
 
 class ExpertManager:
     def __init__(self):
@@ -11,9 +11,3 @@ class ExpertManager:
 
     def get_expert(self, name):
         return self.experts.get(name)
-
-if __name__ == "__main__":
-    manager = ExpertManager()
-    expert = manager.create_expert("ExampleExpert")
-    result = expert.process("Example Task")
-    print(result)

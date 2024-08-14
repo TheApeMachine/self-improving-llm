@@ -1,5 +1,5 @@
-from intent_recognition import IntentRecognizer
-from entity_recognition import EntityRecognizer
+from .intent_recognition import IntentRecognizer
+from .entity_recognition import EntityRecognizer
 
 class NLUPipeline:
     def __init__(self):

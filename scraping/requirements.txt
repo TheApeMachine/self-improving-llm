@@ -7,3 +7,6 @@ librosa
 transformers
 kafka-python
 boto3
+free-proxy
+fake-useragent
+scrapy-rotating-proxies

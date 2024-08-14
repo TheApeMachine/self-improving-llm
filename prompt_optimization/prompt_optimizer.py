@@ -1,5 +1,5 @@
-from prompt_rephrasing import PromptRephraser
-from prompt_augmentation import PromptAugmentor
+from .prompt_rephrasing import PromptRephraser
+from .prompt_augmentation import PromptAugmentor
 
 class PromptOptimizer:
     def __init__(self):

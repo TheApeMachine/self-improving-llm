@@ -9,10 +9,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the consumer files
-COPY . /app/kafka_consumers
+COPY . .
 
 # Set the working directory
 WORKDIR /app
 
 # Command to run the knowledge graph consumer
-CMD ["python", "kafka_consumers/memory_consumer.py"]
+CMD ["python", "knowledge_graph_consumer.py"]
