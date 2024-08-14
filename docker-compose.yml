@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  webcrawler:
+    build: .
+    container_name: web_crawler
+    volumes:
+      - .:/app
+    depends_on:
+      - kafka
+    networks:
+      - lmm-network
+
+  spark:
+    image: bitnami/spark:3.4.1
+    container_name: spark
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - "8080:8080"
+    networks:
+      - lmm-network
+
+  kafka:
+    image: bitnami/kafka:3.4.0
+    container_name: kafka
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    networks:
+      - lmm-network
+
+  zookeeper:
+    image: bitnami/zookeeper:3.8.0
+    container_name: zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
+    networks:
+      - lmm-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - lmm-network
+
+  s3mock:
+    image: adobe/s3mock
+    container_name: s3mock
+    ports:
+      - "9090:9090"
+    environment:
+      initialBuckets: 'bucket-name'
+    networks:
+      - lmm-network
+
+networks:
+  lmm-network:
+    driver: bridge
