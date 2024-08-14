@@ -1,0 +1,9 @@
+scrapy
+beautifulsoup4
+requests
+pyspark
+opencv-python-headless
+librosa
+transformers
+kafka-python
+boto3

@@ -7,7 +7,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     wget \
-    openjdk-11-jdk-headless \
+    default-jre \
     libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -15,14 +15,11 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the spider into the Scrapy project
-COPY scraping/wikipedia /app/wikipedia/
+# Copy the scraping files
+COPY . /app/scraping
 
-# Set the working directory to the Scrapy project
-WORKDIR /app
+# Set the working directory for the crawler
+WORKDIR /app/scraping
 
-# Expose port (optional, depending on your services)
-EXPOSE 5000
-
-# Command to run your app
+# Command to run the web crawler
 CMD ["scrapy", "crawl", "wikipedia"]

@@ -2,10 +2,29 @@ version: '3.8'
 
 services:
   webcrawler:
-    build: .
+    build:
+      context: ./scraping
     container_name: web_crawler
-    volumes:
-      - .:/app
+    depends_on:
+      - kafka
+    networks:
+      - lmm-network
+
+  knowledge_graph_consumer:
+    build:
+      dockerfile: kg.Dockerfile
+      context: ./kafka_consumers
+    container_name: knowledge_graph_consumer
+    depends_on:
+      - kafka
+    networks:
+      - lmm-network
+
+  memory_consumer:
+    build:
+      dockerfile: mem.Dockerfile
+      context: ./kafka_consumers
+    container_name: memory_consumer
     depends_on:
       - kafka
     networks:
@@ -30,6 +49,8 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_LISTENERS=PLAINTEXT://:9092
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - BITNAMI_DEBUG=TRUE
+      - KAFKA_ENABLE_KRAFT=no
     ports:
       - "9092:9092"
     depends_on:
