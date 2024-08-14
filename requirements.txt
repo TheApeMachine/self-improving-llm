@@ -1,8 +1,9 @@
+scrapy
+beautifulsoup4
+requests
+pyspark
+opencv-python-headless
+librosa
 transformers
-torch
-selenium
-deeplake
-loguru
-rich
-bs4
-db-sqlite3
+kafka-python
+boto3
